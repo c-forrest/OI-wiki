@@ -107,7 +107,7 @@ Wilson 定理可以推广到一般模数的情形。
 算式 $(n!)_p$ 有明显的递归结构。为注意到这一点，首先考察一个具体的例子：
 
 ???+ example "例子"
-    要计算 $(32!)_5$，可以做如下递归计算：
+    要计算 $(32!)_5 \bmod{5}$，可以做如下递归计算：
 
     $$
     \begin{aligned}
@@ -133,7 +133,21 @@ Wilson 定理可以推广到一般模数的情形。
     $$
 
 ??? note "证明"
-    要计算 $(n-1)!\bmod p$ 的值。仿照上面的例子，有
+
+    记 $(n)_p$ 为 $n$ 的素因数分解中去除所有 $p$ 的幂次的结果。于是，有
+
+    $$
+    \begin{aligned}
+    (n!)_p &= \prod_{k=1}^n(k)_p = \left(\prod_{1\le k\le n,\ k\perp p}(k)_p\right)\left(\prod_{1\le k\le\lfloor n/p\rfloor}(pk)_p\right) \\
+    &= \left(\prod_{i=0}^{\lfloor n/p\rfloor-1}\prod_{j=1}^{p-1}(ip+j)\right)\left(\prod_{j=1}^{n\bmod p}(\lfloor n/k\rfloor k+j)\right)\left(\prod_{1\le k\le\lfloor n/p\rfloor}(k)_p\right) \\
+    &\equiv\left(\prod_{j=1}^{p-1}j\right)^{\lfloor n/p\rfloor}\left(\prod_{j=1}^{n\bmod p}j\right)(\lfloor n/p\rfloor!)_p \\
+    &\equiv (-1)^{\lfloor n/p\rfloor}\cdot(n\bmod p)!\cdot(\lfloor n/p\rfloor!)_p \pmod p.
+    \end{aligned}
+    $$
+
+    这就完成了证明。下面对于该形式证明提供具体的解释。
+
+    要计算 $(n!)_p\bmod p$ 的值。仿照上面的例子，有
 
     $$
     \begin{aligned}
@@ -213,7 +227,7 @@ Wilson 定理可以推广到一般模数的情形。
     其中，$\pm 1$ 的取值如同 [Wilson 定理的推广](#推广) 中规定的那样。
 
 ??? note "证明"
-    证明思路和素数模的情形完全一致。此处，提供一个形式证明：记 $(k)_p$ 为去除 $k$ 的素因数分解中 $p$ 的全部幂次的结果，则
+    证明思路和素数模的情形完全一致。记 $(k)_p$ 为去除 $k$ 的素因数分解中 $p$ 的全部幂次的结果，则
 
     $$
     \begin{aligned}
@@ -228,29 +242,21 @@ Wilson 定理可以推广到一般模数的情形。
 与素数模的情形不同之处，除了 $-1$ 可能需要替换为 $\pm 1$ 之外，还需要注意预处理的数据的不同。对于素数幂模的情形，需要对所有不超过 $p^\alpha$ 的正整数 $n$ 预处理自 $1$ 至 $n$ 但并非 $p$ 的倍数的所有整数的乘积，即
 
 $$
-\prod_{1\le k\le n,\ j\perp p} k\bmod{p^\alpha}.
+\prod_{1\le k\le n,\ k\perp p} k\bmod{p^\alpha}.
 $$
 
 在素数模的情形，它退化为 $n!\bmod p$，但是该表达式在一般的素数幂的情形不再适用。
 
-由此，就可以得到：
+由此，就可以得到如下递推结果：
 
-???+ note "推论 2"
-    对于素数 $p$ 和正整数 $q$ 和非负整数 $n$ 有
-    
+???+ note "递推结果"
+    对于素数 $p$ 和正整数 $\alpha,n$，有
+
     $$
-    \frac{n!}{p^{\sum_{j\geq 1}\lfloor \frac{n}{p^j}\rfloor}}\equiv (\pm 1)^{\sum_{j\geq q}\lfloor \frac{n}{p^j}\rfloor}\prod_{j\geq 0}(N_j!)_p\pmod{p^q}
+    (n!)_p \equiv (\pm 1)^{\sum_{j\ge\alpha}\lfloor{n}/{p^j}\rfloor}\prod_{j\ge 0}F(\lfloor n/p^j\rfloor\bmod p^\alpha),
     $$
-    
-    其中 $N_j=\lfloor n/p^j\rfloor \bmod{p^q}$ 而 $\pm 1$ 与上述相同。
-    
-    记 $r=n-m$ 且 $n > m$ 有
-    
-    $$
-    \frac{(\pm 1)^{\sum_{j\geq q}\left(\lfloor n/p^j\rfloor -\lfloor m/p^j\rfloor -\lfloor r/p^j\rfloor\right)}}{p^{\nu(n!)-\nu(m!)-\nu(r!)}}\binom{n}{m}\equiv \frac{n!/p^{\nu(n!)}}{(m!/p^{\nu(m!)})(r!/p^{\nu(r!)})}\pmod{p^q}
-    $$
-    
-    右边的分母中括号内的项均在模 $p^q$ 意义下均存在逆元，可直接计算，而 $\pm 1$ 的取值与上述相同。
+
+    其中，$F(m) = \prod_{1\le k\le m,\ k\perp p} k\bmod{p^\alpha}$ 且 $\pm 1$ 的取值与上文所述相同。
 
 ## 幂次的计算
 
