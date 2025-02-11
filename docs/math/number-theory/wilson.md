@@ -206,9 +206,9 @@ Wilson 定理可以推广到一般模数的情形。
 ???+ note "递推公式"
     对于素数 $p$ 和正整数 $\alpha,n$，有
 
-$$
-(n!)_{p} \equiv (\pm 1)^{\lfloor n/p^\alpha\rfloor}\cdot\left(\prod_{1\le j\le (n\bmod p^\alpha),\ j\perp p}j\right)\cdot(\lfloor n/p\rfloor!)_p\pmod{p^\alpha}.
-$$
+    $$
+    (n!)_{p} \equiv (\pm 1)^{\lfloor n/p^\alpha\rfloor}\cdot\left(\prod_{1\le j\le (n\bmod p^\alpha),\ j\perp p}j\right)\cdot(\lfloor n/p\rfloor!)_p\pmod{p^\alpha}.
+    $$
 
     其中，$\pm 1$ 的取值如同 [Wilson 定理的推广](#推广) 中规定的那样。
 
