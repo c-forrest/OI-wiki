@@ -201,30 +201,37 @@ Wilson 定理可以推广到一般模数的情形。
 
 ### 素数幂模的情形
 
-对于素数幂模的情形，可以仿照素数模的情形解决，只需要将 Wilson 定理替换成它的推广形式。本节两个结论中的 $\pm 1$，均特指这样的定义：当模数 $p^q$ 取 $8$ 及以上的 $2$ 的幂时取 $1$，其余取 $-1$。
+对于素数幂模的情形，可以仿照素数模的情形解决，只需要将 Wilson 定理替换成它的推广形式。本节两个结论中的 $\pm 1$，均特指这样的定义：当模数 $p=2$ 且 $\alpha\ge 3$ 时取 $1$，其余情形取 $-1$。
 
 ???+ note "递推公式"
     对于素数 $p$ 和正整数 $\alpha,n$，有
 
-    $$
-    (n!)_{p} \equiv (\pm 1)^{\left\lfloor n/p^\alpha\right\rfloor}\cdot \left((n\bmod p^\alpha)!\right)_p\cdot\left(\left\lfloor n/p^\alpha\right\rfloor!\right)_p\pmod{p^\alpha}.
-    $$
+$$
+(n!)_{p} \equiv (\pm 1)^{\lfloor n/p^\alpha\rfloor}\cdot\left(\prod_{1\le j\le (n\bmod p^\alpha),\ j\perp p}j\right)\cdot(\lfloor n/p\rfloor!)_p\pmod{p^\alpha}.
+$$
 
     其中，$\pm 1$ 的取值如同 [Wilson 定理的推广](#推广) 中规定的那样。
 
 ??? note "证明"
-    令 $\displaystyle \prod '$ 表示不能被 $p$ 整除的数的乘积，有
-    
+    证明思路和素数模的情形完全一致。此处，提供一个形式证明：记 $(k)_p$ 为去除 $k$ 的素因数分解中 $p$ 的全部幂次的结果，则
+
     $$
     \begin{aligned}
-    (n!)_p&=\prod_{1\leq r\leq n}'r\\
-    &=\left(\prod_{i=0}^{\lfloor n/p^q \rfloor -1}\prod_{1\leq j\leq p^q}'(ip^q+j)\right)\left(\prod_{1\leq j\leq N_0}'(\lfloor n/p^q\rfloor p^q+j)\right)\\
-    &\equiv ((p^q!)_p)^{\lfloor n/p^q\rfloor}(N_0!)_p\\
-    &\equiv (\pm 1)^{\lfloor n/p^q\rfloor}(N_0!)_p\pmod{p^q}
+    (n!)_p
+    &= \prod_{1\le k\le n}(k)_p = \left(\prod_{1\le k\le n,\ k\perp p}(k)_p\right)\left(\prod_{1\le k\le\lfloor n/p\rfloor}(pk)_p\right) \\
+    &= \left(\prod_{i=0}^{\lfloor n/p^\alpha\rfloor-1}\prod_{1\le j\le p^\alpha,\ j\perp p}(ip^\alpha+j)_p\right)\left(\prod_{1\le j\le (n\bmod p^\alpha),\ j\perp p}(\lfloor n/p^\alpha\rfloor p^\alpha+j)_p\right)\left(\prod_{1\le k\le\lfloor n/p\rfloor}(k)_p\right)\\
+    &\equiv \left(\prod_{1\le j\le p^\alpha,\ j\perp p}j\right)^{\lfloor n/p^\alpha\rfloor}\cdot\left(\prod_{1\le j\le (n\bmod p^\alpha),\ j\perp p}j\right)\cdot(\lfloor n/p\rfloor!)_p\\
+    &\equiv (\pm 1)^{\lfloor n/p^\alpha\rfloor}\cdot\left(\prod_{1\le j\le (n\bmod p^\alpha),\ j\perp p}j\right)\cdot(\lfloor n/p\rfloor!)_p \pmod{p^\alpha}.
     \end{aligned}
     $$
-    
-    将 $1\times 2\times 3\times \cdots \times n$ 记为 $(0\times p^q+1)\times (0\times p^q+2)\times \cdots \times (\lfloor n/p^q\rfloor p^q+N_0)$ 就得到了上述第二行。
+
+与素数模的情形不同之处，除了 $-1$ 可能需要替换为 $\pm 1$ 之外，还需要注意预处理的数据的不同。对于素数幂模的情形，需要对所有不超过 $p^\alpha$ 的正整数 $n$ 预处理自 $1$ 至 $n$ 但并非 $p$ 的倍数的所有整数的乘积，即
+
+$$
+\prod_{1\le k\le n,\ j\perp p} k\bmod{p^\alpha}.
+$$
+
+在素数模的情形，它退化为 $n!\bmod p$，但是该表达式在一般的素数幂的情形不再适用。
 
 由此，就可以得到：
 
@@ -243,7 +250,7 @@ Wilson 定理可以推广到一般模数的情形。
     \frac{(\pm 1)^{\sum_{j\geq q}\left(\lfloor n/p^j\rfloor -\lfloor m/p^j\rfloor -\lfloor r/p^j\rfloor\right)}}{p^{\nu(n!)-\nu(m!)-\nu(r!)}}\binom{n}{m}\equiv \frac{n!/p^{\nu(n!)}}{(m!/p^{\nu(m!)})(r!/p^{\nu(r!)})}\pmod{p^q}
     $$
     
-    右边的分母中括号内的项均在模 $p^q$ 意义下均存在逆元，可直接计算，而 $\pm 1$ 的与上述相同。
+    右边的分母中括号内的项均在模 $p^q$ 意义下均存在逆元，可直接计算，而 $\pm 1$ 的取值与上述相同。
 
 ## 幂次的计算
 
@@ -259,7 +266,7 @@ Wilson 定理可以推广到一般模数的情形。
     $$
     \nu_p(n!) = \sum_{i=1}^{\infty} \left\lfloor \dfrac{n}{p^i} \right\rfloor = \dfrac{n-S_p(n)}{p-1},
     $$
-    
+
     其中，$S_p(n)$ 为 $p$ 进制下 $n$ 的各个数位的和。特别地，阶乘中 $2$ 的幂次是 $\nu_2(n!)=n-S_2(n)$。
 
 ??? note "证明"
