@@ -87,16 +87,19 @@ $\sum_{i=1}^nf(i)\left\lfloor\dfrac ni\right\rfloor$
 伪代码如下：
 
 $$
+\begin{array}{l}
+\textbf{Method.}\\
 \begin{array}{ll}
 1 & \text{Calculate $s(i)$, the prefix sum of $f(i)$.} \\
 2 & l \gets 1\\
 3 & r \gets 0\\
 4 & \textit{result} \gets 0 \\
-5 & \textbf{while } l \leq n \textbf{ do} : \\
+5 & \textbf{while } l \leq n \textbf{ do}\\
 6 & \qquad r \gets \left\lfloor \dfrac{n}{\lfloor n/l \rfloor} \right\rfloor\\
-7 & \qquad \textit{result} \gets \textit{result} + [s(r)-s(l-1)] \times\left\lfloor \dfrac{n}{l} \right\rfloor\\
+7 & \qquad \textit{result} \gets \textit{result} + (s(r)-s(l-1)) \times\left\lfloor \dfrac{n}{l} \right\rfloor\\
 8 & \qquad l \gets r+1\\
 9 & \textbf{end while }\\
+\end{array}
 \end{array}
 $$
 

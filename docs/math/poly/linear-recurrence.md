@@ -210,17 +210,20 @@ $$
 这样我们可以写出伪代码
 
 $$
+\begin{array}{l}
+\textbf{Algorithm }\operatorname{Slice-Coefficients}(Q,L)\text{:} \\
+\textbf{Input. }Q(x)\in\mathbb{C}\left\lbrack x\right\rbrack,L\in\mathbb{Z}\text{.} \\
+\textbf{Output. }\left\lbrack x^{\left\lbrack L,L+\deg Q+1\right)}\right\rbrack Q(x)^{-1}\text{.} \\
+\textbf{Method.}\\
 \begin{array}{ll}
-&\textbf{Algorithm }\operatorname{Slice-Coefficients}(Q,L)\text{:} \\
-&\textbf{Input}\text{: }Q(x)\in\mathbb{C}\left\lbrack x\right\rbrack,L\in\mathbb{Z}\text{.} \\
-&\textbf{Output}\text{: }\left\lbrack x^{\left\lbrack L,L+\deg Q+1\right)}\right\rbrack Q(x)^{-1}\text{.} \\
 1&\textbf{if }L\leq 1\textbf{ then return }\left\lbrack x^{\left\lbrack L,L+\deg Q+1\right)}\right\rbrack Q(x)^{-1} \\
-&\text{Use other algorithm to compute }Q(x)^{-1} \\
+&\text{Use other algorithms to compute }Q(x)^{-1} \\
 2&V(x^2)\gets Q(x)Q(-x) \\
 3&k\gets \left\lceil \frac{L-\deg Q}{2}\right\rceil \\
 4&(t_k,\dots ,t_{k+\deg Q})\gets \operatorname{Slice-Coefficients}\left(V,k\right) \\
 5&T(x)\gets x^{(L-\deg Q)\bmod{2}}\sum_{j=0}^{\deg Q}t_{j+k}x^{2j} \\
 6&\textbf{return }\left\lbrack x^{\left\lbrack \deg Q,2\deg Q+1\right)}\right\rbrack T(x)Q(-x)
+\end{array}
 \end{array}
 $$
 

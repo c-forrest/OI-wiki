@@ -107,15 +107,15 @@ $$
 \textbf{Method.}\\
 \begin{array}{ll}
 1  & \textbf{while }C\textrm{ is not empty }\\
-2  & \qquad \beta \leftarrow C.orbit[0]\\
+2  & \qquad \beta \leftarrow C.\textit{orbit}[0]\\
 3  & \qquad \delta \leftarrow \beta^h\\
-4  & \qquad \textbf{if }\delta\in C.orbit\textbf{ then}\\
-5  & \qquad \qquad t \leftarrow C.transversal[\delta]\\
+4  & \qquad \textbf{if }\delta\in C.\textit{orbit}\textbf{ then}\\
+5  & \qquad \qquad t \leftarrow C.\textit{transversal}[\delta]\\
 6  & \qquad \qquad h \leftarrow ht^{-1}\\
 7  & \qquad \textbf{else }\\
 8  & \qquad \qquad \textbf{return }\textrm{false}\\
 9  & \qquad \textbf{end if}\\
-10 & \qquad C \leftarrow C.next\\
+10 & \qquad C \leftarrow C.\textit{next}\\
 11 & \textbf{end while}\\
 12 & \textbf{return }h=e
 \end{array}
@@ -317,30 +317,30 @@ $$
 3  & \textbf{end if}\\
 4  & \textbf{if }C\textrm{ is empty}\textbf{ then}\\
 5  & \qquad \beta \leftarrow \textrm{an element moved by }g\\
-6  & \qquad C.orbit[0] \leftarrow \beta \\
-7  & \qquad C.transversal[\beta] \leftarrow e\\
+6  & \qquad C.\textit{orbit}[0] \leftarrow \beta \\
+7  & \qquad C.\textit{transversal}[\beta] \leftarrow e\\
 8  & \textbf{end if}\\
-9  & \textrm{append }g\textrm{ to }C.generators\\
-10  & \Delta \leftarrow C.orbit \\
+9  & \textrm{append }g\textrm{ to }C.\textit{generators}\\
+10  & \Delta \leftarrow C.\textit{orbit} \\
 11 & \textbf{for }\delta\in\Delta \\
 12 & \qquad \gamma \leftarrow \delta^g \\
-13 & \qquad \textbf{if }\gamma\notin C.orbit\textbf{ then}\\
-14 & \qquad \qquad \textrm{append }\gamma\textrm{ to }C.orbit\\
-15 & \qquad \qquad C.transversal[\gamma] \leftarrow C.transversal[\delta]\cdot g\\
+13 & \qquad \textbf{if }\gamma\notin C.\textit{orbit}\textbf{ then}\\
+14 & \qquad \qquad \textrm{append }\gamma\textrm{ to }C.\textit{orbit}\\
+15 & \qquad \qquad C.\textit{transversal}[\gamma] \leftarrow C.\textit{transversal}[\delta]\cdot g\\
 16 & \qquad \textbf{else}\\
-17 & \qquad \qquad s'\leftarrow C.transversal[\delta]\cdot g\cdot C.transversal[\gamma]^{-1}\\
-18 & \qquad \qquad C.next \leftarrow \textrm{Extend}(C.next, s')\\
+17 & \qquad \qquad s'\leftarrow C.\textit{transversal}[\delta]\cdot g\cdot C.\textit{transversal}[\gamma]^{-1}\\
+18 & \qquad \qquad C.\textit{next} \leftarrow \textrm{Extend}(C.\textit{next}, s')\\
 19 & \qquad \textbf{end if}\\
 20 & \textbf{end for} \\
-21 & \textbf{for }\delta\in C.orbit\setminus\Delta \\ 
+21 & \textbf{for }\delta\in C.\textit{orbit}\setminus\Delta \\ 
 22 & \qquad \textbf{for }s\in C.generators \\
 23 & \qquad \qquad \gamma \leftarrow \delta^s \\
-24 & \qquad \qquad \textbf{if }\gamma\notin C.orbit\textbf{ then}\\
-25 & \qquad \qquad \qquad \textrm{append }\gamma\textrm{ to }C.orbit\\
-26 & \qquad \qquad \qquad C.transversal[\gamma] \leftarrow C.transversal[\delta]\cdot s\\
+24 & \qquad \qquad \textbf{if }\gamma\notin C.\textit{orbit}\textbf{ then}\\
+25 & \qquad \qquad \qquad \textrm{append }\gamma\textrm{ to }C.\textit{orbit}\\
+26 & \qquad \qquad \qquad C.\textit{transversal}[\gamma] \leftarrow C.\textit{transversal}[\delta]\cdot s\\
 27 & \qquad \qquad \textbf{else}\\
-28 & \qquad \qquad \qquad s'\leftarrow C.transversal[\delta]\cdot s\cdot C.transversal[\gamma]^{-1}\\
-29 & \qquad \qquad \qquad \textrm{Extend}(C.next, s')\\
+28 & \qquad \qquad \qquad s'\leftarrow C.\textit{transversal}[\delta]\cdot s\cdot C.\textit{transversal}[\gamma]^{-1}\\
+29 & \qquad \qquad \qquad \textrm{Extend}(C.\textit{next}, s')\\
 30 & \qquad \qquad \textbf{end if}\\
 31 & \qquad \textbf{end for}\\
 32 & \textbf{end for} \\
@@ -368,11 +368,11 @@ $$
 3  & \textbf{end if}\\
 4  & \textbf{if }C\textrm{ is empty}\textbf{ then}\\
 5  & \qquad \beta \leftarrow \textrm{an element moved by }g\\
-6  & \qquad C.orbit[0] \leftarrow \beta \\
-7  & \qquad C.transversal[\beta] \leftarrow e\\
+6  & \qquad C.\textit{orbit}[0] \leftarrow \beta \\
+7  & \qquad C.\textit{transversal}[\beta] \leftarrow e\\
 8  & \textbf{end if}\\
-9  & \textrm{append }g\textrm{ to }C.generators\\
-10 & \textbf{for }t\in C.transversal\\
+9  & \textrm{append }g\textrm{ to }C.\textit{generators}\\
+10 & \textbf{for }t\in C.\textit{transversal}\\
 11 & \qquad \textrm{ExtendTranserversal}(C,t\cdot g)\\
 12 & \textbf{end for}\\
 13 & \textbf{return }C
@@ -381,17 +381,17 @@ $$
 \textbf{Sub-Algorithm }\textrm{ExtendTranserversal}(C,t):\\
 \textbf{Method.}\\
 \begin{array}{ll}
-1  & \beta \leftarrow C.orbit[0]\\
+1  & \beta \leftarrow C.\textit{orbit}[0]\\
 2  & \gamma \leftarrow \beta^t\\
-3  & \textbf{if }\gamma\notin C.orbit\textbf{ then}\\
-4  & \qquad \textrm{append }\gamma\textrm{ to }C.orbit\\
-5  & \qquad C.transversal[\gamma] \leftarrow t\\
-6  & \qquad \textbf{for }s\in C.generators\\
+3  & \textbf{if }\gamma\notin C.\textit{orbit}\textbf{ then}\\
+4  & \qquad \textrm{append }\gamma\textrm{ to }C.\textit{orbit}\\
+5  & \qquad C.\textit{transversal}[\gamma] \leftarrow t\\
+6  & \qquad \textbf{for }s\in C.\textit{generators}\\
 7  & \qquad \qquad \textrm{ExtendTranserversal}(C,t\cdot s)\\
 8  & \qquad \textbf{end for}\\
 9  & \textbf{else}\\
-10 & \qquad s' \leftarrow t\cdot C.transversal[\gamma]^{-1}\\
-11 & \qquad \textrm{Extend}(C.next,s')\\
+10 & \qquad s' \leftarrow t\cdot C.\textit{transversal}[\gamma]^{-1}\\
+11 & \qquad \textrm{Extend}(C.\textit{next},s')\\
 12 & \textbf{end if}
 \end{array}
 \end{array}
