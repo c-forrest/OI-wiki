@@ -29,17 +29,19 @@
 ### 伪代码
 
 $$
+\begin{array}{l}
+\textbf{Input. } \text{An array } A \text{ consisting of }n\text{ elements.} \\
+\textbf{Output. } A\text{ will be sorted in nondecreasing order stably.} \\
+\textbf{Method. }  \\
 \begin{array}{ll}
-1 & \textbf{Input. } \text{An array } A \text{ consisting of }n\text{ elements.} \\
-2 & \textbf{Output. } A\text{ will be sorted in nondecreasing order stably.} \\
-3 & \textbf{Method. }  \\
-4 & flag\gets True\\
-5 & \textbf{while }flag\\
-6 & \qquad flag\gets False\\
-7 & \qquad\textbf{for }i\gets1\textbf{ to }n-1\\
-8 & \qquad\qquad\textbf{if }A[i]>A[i + 1]\\
-9 & \qquad\qquad\qquad flag\gets True\\
-10 & \qquad\qquad\qquad \text{Swap } A[i]\text{ and }A[i + 1]
+1 & \textit{flag}\gets \textrm{True}\\
+2 & \textbf{while }\textit{flag}\\
+3 & \qquad \textit{flag}\gets \textrm{False}\\
+4 & \qquad\textbf{for }i\gets1\textbf{ to }n-1\\
+5 & \qquad\qquad\textbf{if }A[i]>A[i + 1]\\
+6 & \qquad\qquad\qquad \textit{flag}\gets \textrm{True}\\
+7 & \qquad\qquad\qquad \text{Swap } A[i]\text{ and }A[i + 1]
+\end{array}
 \end{array}
 $$
 

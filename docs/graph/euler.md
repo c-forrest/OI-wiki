@@ -50,20 +50,22 @@
 Hierholzer 算法的伪代码如下：
 
 $$
+\begin{array}{l}
+\textbf{Input. } \text{The edges of the graph, } e , \text{ each element of which is } (u, v). \\
+\textbf{Output. } \text{The vertex of the Euler Road of the input graph}.\\
+\textbf{Method. } \\
 \begin{array}{ll}
-1 &  \textbf{Input. } \text{The edges of the graph } e , \text{ where each element in } e \text{ is } (u, v) \\
-2 &  \textbf{Output. } \text{The vertex of the Euler Road of the input graph}.\\
-3 &  \textbf{Method. } \\
-4 &  \textbf{Function } \text{Hierholzer } (v) \\
-5 &  \qquad circle \gets \text{Find a Circle in } e \text{ Begin with } v \\
-6 &  \qquad \textbf{if } circle=\varnothing \\
-7 &  \qquad\qquad \textbf{return } v \\
-8 &  \qquad e \gets e-circle \\
-9 &  \qquad \textbf{for} \text{ each } v \in circle \\
-10&  \qquad\qquad v \gets \text{Hierholzer}(v) \\
-11&  \qquad \textbf{return } circle \\
-12&  \textbf{Endfunction}\\
-13&  \textbf{return } \text{Hierholzer}(\text{any vertex})
+1 & \textbf{Function}\;\text{Hierholzer}(v) \\
+2 & \qquad \textit{circle} \gets \text{a circle in }e\text{ beginning with }v \\
+3 & \qquad \textbf{if}\;\textit{circle} = \varnothing \\
+4 & \qquad \qquad \textbf{return}\;v \\
+5 & \qquad e \gets e - \textit{circle} \\
+6 & \qquad \textbf{for each }v\textbf{ in }\textit{circle} \\
+7 & \qquad \qquad v \gets \text{Hierholzer}(v) \\
+8 & \qquad \textbf{return}\;\textit{circle}\\
+9 & \textbf{EndFunction}\\
+10& \textbf{return}\;\text{Hierholzer}(\text{any vertex})
+\end{array}
 \end{array}
 $$
 

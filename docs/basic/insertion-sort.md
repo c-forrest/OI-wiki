@@ -25,17 +25,19 @@
 ### 伪代码
 
 $$
+\begin{array}{l}
+\textbf{Input. } \text{An array } A \text{ consisting of }n\text{ elements.} \\
+\textbf{Output. } A\text{ will be sorted in nondecreasing order stably.} \\
+\textbf{Method. }  \\
 \begin{array}{ll}
-1 & \textbf{Input. } \text{An array } A \text{ consisting of }n\text{ elements.} \\
-2 & \textbf{Output. } A\text{ will be sorted in nondecreasing order stably.} \\
-3 & \textbf{Method. }  \\
-4 & \textbf{for } i\gets 2\textbf{ to }n\\
-5 & \qquad key\gets A[i]\\
-6 & \qquad j\gets i-1\\
-7 & \qquad\textbf{while }j>0\textbf{ and }A[j]>key\\
-8 & \qquad\qquad A[j + 1]\gets A[j]\\
-9 & \qquad\qquad j\gets j - 1\\
-10 & \qquad A[j + 1]\gets key
+1 & \textbf{for } i\gets 2\textbf{ to }n\\
+2 & \qquad \textit{key}\gets A[i]\\
+3 & \qquad j\gets i-1\\
+4 & \qquad\textbf{while }j>0\textbf{ and }A[j]>\textit{key}\\
+5 & \qquad\qquad A[j + 1]\gets A[j]\\
+6 & \qquad\qquad j\gets j - 1\\
+7 & \qquad A[j + 1]\gets \textit{key}
+\end{array}
 \end{array}
 $$
 

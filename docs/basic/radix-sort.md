@@ -170,12 +170,14 @@ LSD 基数排序的正确性可以参考 [《算法导论（第三版）》第 8
 ### 伪代码
 
 $$
+\begin{array}{l}
+\textbf{Input. } \text{An array } A \text{ consisting of }n\text{ elements, where each element has }k\text{ keys.}\\
+\textbf{Output. } \text{Array }A\text{ will be sorted in nondecreasing order stably.} \\
+\textbf{Method. }  \\
 \begin{array}{ll}
-1 & \textbf{Input. } \text{An array } A \text{ consisting of }n\text{ elements, where each element has }k\text{ keys.}\\
-2 & \textbf{Output. } \text{Array }A\text{ will be sorted in nondecreasing order stably.} \\
-3 & \textbf{Method. }  \\
-4 & \textbf{for }i\gets k\textbf{ down to }1\\
-5 & \qquad\text{sort }A\text{ into nondecreasing order by the }i\text{-th key stably}
+1 & \textbf{for }i\gets k\textbf{ down to }1\\
+2 & \qquad\text{sort }A\text{ into nondecreasing order by the }i\text{-th key stably}
+\end{array}
 \end{array}
 $$
 

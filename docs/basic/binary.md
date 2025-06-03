@@ -221,13 +221,13 @@ $$
 \textbf{Method. } \\
 \begin{array}{ll}
 1 & \textbf{while } r - l > \varepsilon\\
-2 & \qquad mid\gets (l+r)/2\\
-3 & \qquad lmid\gets mid - \varepsilon \\
-4 & \qquad rmid\gets mid + \varepsilon \\
-5 & \qquad \textbf{if } f(lmid) < f(rmid) \\
-6 & \qquad \qquad l\gets lmid \\
+2 & \qquad \textit{mid}\gets (l+r)/2\\
+3 & \qquad \textit{lmid}\gets \textit{mid} - \varepsilon \\
+4 & \qquad \textit{rmid}\gets \textit{mid} + \varepsilon \\
+5 & \qquad \textbf{if } f(\textit{lmid}) < f(\textit{rmid}) \\
+6 & \qquad \qquad l\gets \textit{lmid} \\
 7 & \qquad \textbf{else } \\
-8 & \qquad \qquad r\gets rmid \\
+8 & \qquad \qquad r\gets \textit{rmid} \\
 9 & x^* \gets (l+r)/2 \\
 10& \textbf{return } x^*,~ f(x^*)
 \end{array}
@@ -282,23 +282,23 @@ $$
 \textbf{Output. } \text{The maximizer }x^*\text{, up to an error of }\varepsilon\text{, and its value } f(x^*). \\
 \textbf{Method. } \\
 \begin{array}{ll}
-1 & lmid \gets \phi l + (1-\phi)r \\
-2 & rmid \gets (1-\phi)l + \phi r \\
-3 & lval \gets f(lmid) \\
-4 & rval \gets f(rmid) \\
+1 & \textit{lmid} \gets \phi l + (1-\phi)r \\
+2 & \textit{rmid} \gets (1-\phi)l + \phi r \\
+3 & \textit{lval} \gets f(\textit{lmid}) \\
+4 & \textit{rval} \gets f(\textit{rmid}) \\
 5 & \textbf{while } r - l > \varepsilon \\
-6 & \qquad \textbf{if } lval > rval \\
-7 & \qquad \qquad r \gets rmid \\
-8 & \qquad \qquad rmid \gets lmid \\
-9 & \qquad \qquad rval \gets lval \\
-10& \qquad \qquad lmid \gets \phi l + (1-\phi)r \\
-11& \qquad \qquad lval \gets f(lmid) \\
+6 & \qquad \textbf{if } \textit{lval} > \textit{rval} \\
+7 & \qquad \qquad r \gets \textit{rmid} \\
+8 & \qquad \qquad \textit{rmid} \gets \textit{lmid} \\
+9 & \qquad \qquad \textit{rval} \gets \textit{lval} \\
+10& \qquad \qquad \textit{lmid} \gets \phi l + (1-\phi)r \\
+11& \qquad \qquad \textit{lval}l \gets f(\textit{lmid}) \\
 12& \qquad \textbf{else} \\
-13& \qquad \qquad l \gets lmid \\
-14& \qquad \qquad lmid \gets rmid \\
-15& \qquad \qquad lval \gets rval \\
-16& \qquad \qquad rmid \gets (1-\phi)l + \phi r \\
-17& \qquad \qquad rval \gets f(rmid) \\
+13& \qquad \qquad l \gets \textit{lmid} \\
+14& \qquad \qquad \textit{lmid} \gets \textit{rmid} \\
+15& \qquad \qquad \textit{lval} \gets \textit{rval} \\
+16& \qquad \qquad \textit{rmid} \gets (1-\phi)l + \phi r \\
+17& \qquad \qquad \textit{rval} \gets f(\textit{rmid}) \\
 18& x^* \gets (l+r)/2 \\
 19& \textbf{return }x^*,~f(x^*)
 \end{array}

@@ -46,20 +46,22 @@
 ### 伪代码
 
 $$
+\begin{array}{l}
+\textbf{Input. } \text{An array } A \text{ consisting of }n\text{ positive integers no greater than } w. \\
+\textbf{Output. } \text{Array }A\text{ after sorting in nondecreasing order stably.} \\
+\textbf{Method. }  \\
 \begin{array}{ll}
-1 & \textbf{Input. } \text{An array } A \text{ consisting of }n\text{ positive integers no greater than } w. \\
-2 & \textbf{Output. } \text{Array }A\text{ after sorting in nondecreasing order stably.} \\
-3 & \textbf{Method. }  \\
-4 & \textbf{for }i\gets0\textbf{ to }w\\
-5 & \qquad cnt[i]\gets0\\
-6 & \textbf{for }i\gets1\textbf{ to }n\\
-7 & \qquad cnt[A[i]]\gets cnt[A[i]]+1\\
-8 & \textbf{for }i\gets1\textbf{ to }w\\
-9 & \qquad cnt[i]\gets cnt[i]+cnt[i-1]\\
-10 & \textbf{for }i\gets n\textbf{ downto }1\\
-11 & \qquad B[cnt[A[i]]]\gets A[i]\\
-12 & \qquad cnt[A[i]]\gets cnt[A[i]]-1\\
-13 & \textbf{return } B
+1 & \textbf{for }i\gets0\textbf{ to }w\\
+2 & \qquad \textit{cnt}[i]\gets0\\
+3 & \textbf{for }i\gets1\textbf{ to }n\\
+4 & \qquad \textit{cnt}[A[i]]\gets \textit{cnt}[A[i]]+1\\
+5 & \textbf{for }i\gets1\textbf{ to }w\\
+6 & \qquad \textit{cnt}[i]\gets \textit{cnt}[i]+\textit{cnt}[i-1]\\
+7 & \textbf{for }i\gets n\textbf{ down to }1\\
+8 & \qquad B[\textit{cnt}[A[i]]]\gets A[i]\\
+9 & \qquad \textit{cnt}[A[i]]\gets \textit{cnt}[A[i]]-1\\
+10 & \textbf{return } B
+\end{array}
 \end{array}
 $$
 

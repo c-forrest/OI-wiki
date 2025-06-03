@@ -27,16 +27,18 @@
 ### 伪代码
 
 $$
+\begin{array}{l}
+\textbf{Input. } \text{An array } A \text{ consisting of }n\text{ elements.} \\
+\textbf{Output. } A\text{ will be sorted in nondecreasing order.} \\
+\textbf{Method. }  \\
 \begin{array}{ll}
-1 & \textbf{Input. } \text{An array } A \text{ consisting of }n\text{ elements.} \\
-2 & \textbf{Output. } A\text{ will be sorted in nondecreasing order.} \\
-3 & \textbf{Method. }  \\
-4 & \textbf{for } i\gets 1\textbf{ to }n-1\\
-5 & \qquad ith\gets i\\
-6 & \qquad \textbf{for }j\gets i+1\textbf{ to }n\\
-7 & \qquad\qquad\textbf{if }A[j]<A[ith]\\
-8 & \qquad\qquad\qquad ith\gets j\\
-9 & \qquad \text{swap }A[i]\text{ and }A[ith]\\
+1 & \textbf{for } i\gets 1\textbf{ to }n-1\\
+2 & \qquad \textit{ith}\gets i\\
+3 & \qquad \textbf{for }j\gets i+1\textbf{ to }n\\
+4 & \qquad\qquad\textbf{if }A[j]<A[\textit{ith}]\\
+5 & \qquad\qquad\qquad \textit{ith}\gets j\\
+6 & \qquad \text{swap }A[i]\text{ and }A[\textit{ith}]\\
+\end{array}
 \end{array}
 $$
 
