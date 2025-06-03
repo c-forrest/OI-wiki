@@ -138,25 +138,26 @@ Fib 堆：$O(n \log n + m)$。
 伪代码：
 
 $$
+\begin{array}{l}
+\textbf{Input. }\text{The vertices of the graph, }V\text{, the weight of edges, }g(u,v)\text{,}\\
+\qquad \text{and the nodes adjacent to }v\text{, }\textit{adj}(v). \\
+\textbf{Output. } \text{The sum of weights of the MST of the input graph.} \\
+\textbf{Method.} \\
 \begin{array}{ll}
-1 &  \textbf{Input. } \text{The nodes of the graph }V\text{ ; the function }g(u, v)\text{ which}\\
-  &  \text{means the weight of the edge }(u, v)\text{; the function }adj(v)\text{ which}\\
-  &  \text{means the nodes adjacent to }v.\\
-2 &  \textbf{Output. } \text{The sum of weights of the MST of the input graph.} \\
-3 &  \textbf{Method.} \\
-4 &  result \gets 0 \\
-5 & \text{choose an arbitrary node in }V\text{ to be the }root \\
-6 &  dis(root)\gets 0 \\
-7 &  \textbf{for } \text{each node }v\in(V-\{root\}) \\
-8 &  \qquad  dis(v)\gets\infty \\
-9 &  rest\gets V \\
-10 &  \textbf{while }  rest\ne\varnothing \\
-11 &  \qquad cur\gets \text{the node with the minimum }dis\text{ in }rest \\
-12 &  \qquad  result\gets result+dis(cur) \\
-13 &  \qquad  rest\gets rest-\{cur\} \\
-14 &  \qquad  \textbf{for}\text{ each node }v\in adj(cur) \\
-15 &  \qquad\qquad  dis(v)\gets\min(dis(v), g(cur, v)) \\
-16 &  \textbf{return }  result 
+1 &  \textit{result} \gets 0 \\
+2 &  \textit{root} \gets \text{an arbitrary node in }V \\
+3 &  \textit{dis}(\textit{root}) \gets 0 \\
+4 &  \textbf{for } \text{each node }v\in(V-\{\textit{root}\}) \\
+5 &  \qquad \textit{dis}(v) \gets \infty \\
+6 &  \textit{rest} \gets V \\
+7 &  \textbf{while } \textit{rest}\ne\varnothing \\
+8 &  \qquad \textit{cur} \gets \text{the node with the minimum }\textit{dis}\text{ in }\textit{rest} \\
+9 &  \qquad \textit{result} \gets \textit{result} + \textit{dis}(\textit{cur}) \\
+10&  \qquad \textit{rest} \gets \textit{rest}-\{\textit{cur}\} \\
+11&  \qquad \textbf{for}\text{ each node }v\in \textit{adj}(\textit{cur}) \\
+12&  \qquad\qquad \textit{dis}(v) \gets \min(\textit{dis}(v), g(\textit{cur}, v)) \\
+13&  \textbf{return }\textit{result} 
+\end{array}
 \end{array}
 $$
 
@@ -276,24 +277,26 @@ $$
 当原图连通时，每次迭代连通块数量至少减半，算法只会迭代不超过 $O(\log V)$ 次，而原图不连通时相当于多个子问题，因此算法复杂度是 $O(E\log V)$ 的。给出算法的伪代码：（修改自 [维基百科](https://en.wikipedia.org/wiki/Bor%C5%AFvka%27s_algorithm)）
 
 $$
+\begin{array}{l}
+\textbf{Input. } \text{A graph }G\text{ whose edges have distinct weights.} \\
+\textbf{Output. } \text{The minimum spanning forest of }G.  \\
+\textbf{Method.}\\
 \begin{array}{ll}
-1 &  \textbf{Input. } \text{A graph }G\text{ whose edges have distinct weights. } \\
-2 &  \textbf{Output. } \text{The minimum spanning forest of }G .  \\
-3 &  \textbf{Method. }  \\
-4 & \text{Initialize a forest }F\text{ to be a set of one-vertex trees} \\
-5 &  \textbf{while } \text{True} \\
-6 &  \qquad \text{Find the components of }F\text{ and label each vertex of }G\text{ by its component } \\
-7 &  \qquad \text{Initialize the cheapest edge for each component to "None"} \\
-8 &  \qquad  \textbf{for } \text{each edge }(u, v)\text{ of }G  \\
-9 &  \qquad\qquad  \textbf{if }  u\text{ and }v\text{ have different component labels} \\
-10 &  \qquad\qquad\qquad  \textbf{if }  (u, v)\text{ is cheaper than the cheapest edge for the component of }u  \\
-11 &  \qquad\qquad\qquad\qquad\text{ Set }(u, v)\text{ as the cheapest edge for the component of }u \\
-12 &  \qquad\qquad\qquad  \textbf{if }  (u, v)\text{ is cheaper than the cheapest edge for the component of }v  \\
-13 &  \qquad\qquad\qquad\qquad\text{ Set }(u, v)\text{ as the cheapest edge for the component of }v  \\
-14 &  \qquad  \textbf{if }\text{ all components'cheapest edges are "None"} \\
-15 &  \qquad\qquad  \textbf{return }  F \\
-16 &  \qquad  \textbf{for }\text{ each component whose cheapest edge is not "None"} \\
-17 &  \qquad\qquad\text{ Add its cheapest edge to }F \\
+1 & \text{Initialize a forest }F\text{ to be a set of one-vertex trees} \\
+2 &  \textbf{while } \textrm{True} \\
+3 &  \qquad \text{Find the components of }F\text{ and label each vertex of }G\text{ by its component } \\
+4 &  \qquad \text{Initialize the cheapest edge for each component to }\textrm{None} \\
+5 &  \qquad  \textbf{for } \text{each edge }(u, v)\text{ of }G  \\
+6 &  \qquad\qquad  \textbf{if }  u\text{ and }v\text{ have different component labels} \\
+7 &  \qquad\qquad\qquad  \textbf{if }  (u, v)\text{ is cheaper than the cheapest edge for the component of }u  \\
+8 &  \qquad\qquad\qquad\qquad\text{ Set }(u, v)\text{ as the cheapest edge for the component of }u \\
+9 &  \qquad\qquad\qquad  \textbf{if }  (u, v)\text{ is cheaper than the cheapest edge for the component of }v  \\
+10&  \qquad\qquad\qquad\qquad\text{ Set }(u, v)\text{ as the cheapest edge for the component of }v  \\
+11&  \qquad  \textbf{if }\text{ all components'cheapest edges are "None"} \\
+12&  \qquad\qquad  \textbf{return }  F \\
+13&  \qquad  \textbf{for }\text{ each component whose cheapest edge is not "None"} \\
+14&  \qquad\qquad\text{ Add its cheapest edge to }F \\
+\end{array}
 \end{array}
 $$
 
