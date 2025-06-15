@@ -1,17 +1,14 @@
 #include <algorithm>
-#include <chrono>
 #include <iostream>
-#include <random>
+#include <queue>
 #include <tuple>
 #include <vector>
-
-std::mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 struct BipartiteGraph {
     int n1, n2;                       // number of vertices in X and Y, resp.
     std::vector<std::vector<int>> g;  // edges from X to Y
     std::vector<int> ma, mb;          // matches from X to Y and from Y to X, resp.
-    std::vector<bool> vis;            // visiting marks for DFS.
+    std::vector<int> dist;            // distance from unsaturated vertices in X.
     
     BipartiteGraph(int n1, int n2)
         : n1(n1), n2(n2), g(n1), ma(n1, -1), mb(n2, -1) {}
@@ -19,41 +16,55 @@ struct BipartiteGraph {
     // Add an edge from u in X to v in Y. 
     void add_edge(int u, int v) { g[u].emplace_back(v); }
 
+    // Build the level graph.
+    bool bfs() {
+        dist.assign(n1, -1);
+        std::queue<int> q;
+        for (int u = 0; u < n1; ++u) {
+            if (ma[u] == -1) {
+                dist[u] = 0;
+                q.emplace(u);
+            }
+        }
+        // Build the level graph for all reachable vertices.
+        bool succ = false;
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            for (int v : g[u]) {
+                if (mb[v] == -1) {
+                    succ = true;
+                } else if (dist[mb[v]] == -1) {
+                    dist[mb[v]] = dist[u] + 1;
+                    q.emplace(mb[v]);
+                }
+            }
+        }
+        return succ;
+    }
+
     // Find an augmenting path starting at u.
     bool dfs(int u) {
-        vis[u] = true;
-        // Heuristic: find unsaturated vertices whenever possible.
         for (int v : g[u]) {
-            if (mb[v] == -1) {
+            if (mb[v] == -1 || (dist[mb[v]] == dist[u] + 1 && dfs(mb[v]))) {
                 ma[u] = v;
                 mb[v] = u;
                 return true;
             }
         }
-        for (int v : g[u]) {
-            if (!vis[mb[v]] && dfs(mb[v])) {
-                ma[u] = v;
-                mb[v] = u;
-                return true;
-            }
-        }
+        dist[u] = -1;   // Mark this point as inreachable after one visit.
         return false;
     }
 
-    // Kuhn's maximum matching algorithm.
-    std::vector<std::pair<int, int>> kuhn_maximum_matching() {
-        // Randomly shuffle the edges.
-        for (int u = 0; u < n1; ++u) {
-            std::shuffle(g[u].begin(), g[u].end(), rng);
-        }
-        // Find a maximal set of vertex-disjoint augmenting paths in each round.
-        while (true) {
-            bool succ = false;
-            vis.assign(n1, false);
+    // Hopcroft-Karp maximum matching algorithm.
+    std::vector<std::pair<int, int>> hopcroft_karp_maximum_matching() {
+        // Build the level graph and then find a blocking flow.
+        while (bfs()) {
             for (int u = 0; u < n1; ++u) {
-                succ |= ma[u] == -1 && dfs(u);
+                if (ma[u] == -1) {
+                    dfs(u);
+                }
             }
-            if (!succ) break;
         }
         // Collect the matched pairs.
         std::vector<std::pair<int, int>> matches;
@@ -77,7 +88,7 @@ int main() {
         std::cin >> u >> v;
         gr.add_edge(u, v);
     }
-    auto res = gr.kuhn_maximum_matching();
+    auto res = gr.hopcroft_karp_maximum_matching();
     std::cout << res.size() << '\n';
     for (int i = 0; i < res.size(); ++i) {
         std::cout << res[i].first << ' ' << res[i].second << '\n';
