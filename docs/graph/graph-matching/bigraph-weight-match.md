@@ -1,10 +1,34 @@
 author: accelsao, Enter-tainer, guodong2005, StudyingFather, Backl1ght, Chrogeek, H-J-Granger, Henry-ZHR
 
+前置知识：[二分图](../bi-graph.md)、[图匹配](./graph-match.md)、[二分图最大匹配](./bigraph-match.md)
+
 二分图的最大权匹配是指二分图中边权和最大的匹配。
 
-## Hungarian Algorithm（Kuhn–Munkres Algorithm）
+一个典型的例子是分配任务。假设有 $n$ 项工作要分配给 $m$ 名员工，且第 $i$ 项任务分配给第 $j$ 名员工可以创造价值 $w_{ij}$。每名员工至多分配一项任务，每项任务至多分配给一名员工。要寻找最优的任务分配方式，使得创造的价值的和最大。因此，二分图最大权匹配问题也常称作分配问题（assignment problem）。
 
-匈牙利算法又称为 **KM** 算法，可以在 $O(n^3)$ 时间内求出二分图的 **最大权完美匹配**。
+## 归约为费用流模型
+
+和 [二分图最大匹配问题](./bigraph-match.md#转为网络最大流模型) 类似，二分图最大权匹配问题可以归约为费用流问题。
+
+首先，在图中新增一个源点和一个汇点。
+
+从源点向二分图的每个左部点连一条流量为 $1$，费用为 $0$ 的边，从二分图的每个右部点向汇点连一条流量为 $1$，费用为 $0$ 的边。
+
+接下来对于二分图中每一条连接左部点 $u$ 和右部点 $v$，边权为 $w$ 的边，则连一条从 $u$ 到 $v$，流量为 $1$，费用为 $w$ 的边。
+
+另外，考虑到最大权匹配下，匹配边的数量不一定与最大匹配的匹配边数量相等，因此对于每个左部点，还需向汇点连一条流量为 $1$，费用为 $0$ 的边。
+
+求这个网络的 [最大费用最大流](../flow/min-cost.md) 即可得到答案。此时，该网络的最大流量一定为左部点的数量，而最大流量下的最大费用即对应一个最大权匹配方案。
+
+### 线性规划形式
+
+### Egerváry 定理
+
+## 匈牙利算法（Kuhn–Munkres 算法）
+
+匈牙利算法（Hungarian algorithm），又称为 Kuhn–Munkres 算法，可以在 $O(|V|^3)$ 时间内求出二分图的最大权匹配。
+
+### 过程
 
 考虑到二分图中两个集合中的点并不总是相同，为了能应用 KM 算法解决二分图的最大权匹配，需要先作如下处理：将两个集合中点数比较少的补点，使得两边点数相同，再将不存在的边权重设为 $0$，这种情况下，问题就转换成求 **最大权完美匹配问题**，从而能应用 KM 算法求解。
 
@@ -78,151 +102,20 @@ $a = \min \{ slack(v) | v\in{T'} \}$
 
 一开始枚举 $n$ 个点找增广路，为了找增广路需要延伸 $n$ 次交错树，每次延伸需要 $n$ 次维护，共 $O(n^3)$。
 
-??? note "参考代码"
+### 实现为 SSP 算法
+
+### 参考实现
+
+??? example "模板题 [UOJ #80. 二分图最大权匹配](https://uoj.ac/problem/80)"
     ```cpp
-    template <typename T>
-    struct hungarian {  // km
-      int n;
-      vector<int> matchx;  // 左集合对应的匹配点
-      vector<int> matchy;  // 右集合对应的匹配点
-      vector<int> pre;     // 连接右集合的左点
-      vector<bool> visx;   // 拜访数组 左
-      vector<bool> visy;   // 拜访数组 右
-      vector<T> lx;
-      vector<T> ly;
-      vector<vector<T>> g;
-      vector<T> slack;
-      T inf;
-      T res;
-      queue<int> q;
-      int org_n;
-      int org_m;
-    
-      hungarian(int _n, int _m) {
-        org_n = _n;
-        org_m = _m;
-        n = max(_n, _m);
-        inf = numeric_limits<T>::max();
-        res = 0;
-        g = vector<vector<T>>(n, vector<T>(n));
-        matchx = vector<int>(n, -1);
-        matchy = vector<int>(n, -1);
-        pre = vector<int>(n);
-        visx = vector<bool>(n);
-        visy = vector<bool>(n);
-        lx = vector<T>(n, -inf);
-        ly = vector<T>(n);
-        slack = vector<T>(n);
-      }
-    
-      void addEdge(int u, int v, int w) {
-        g[u][v] = max(w, 0);  // 负值还不如不匹配 因此设为0不影响
-      }
-    
-      bool check(int v) {
-        visy[v] = true;
-        if (matchy[v] != -1) {
-          q.push(matchy[v]);
-          visx[matchy[v]] = true;  // in S
-          return false;
-        }
-        // 找到新的未匹配点 更新匹配点 pre 数组记录着"非匹配边"上与之相连的点
-        while (v != -1) {
-          matchy[v] = pre[v];
-          swap(v, matchx[pre[v]]);
-        }
-        return true;
-      }
-    
-      void bfs(int i) {
-        while (!q.empty()) {
-          q.pop();
-        }
-        q.push(i);
-        visx[i] = true;
-        while (true) {
-          while (!q.empty()) {
-            int u = q.front();
-            q.pop();
-            for (int v = 0; v < n; v++) {
-              if (!visy[v]) {
-                T delta = lx[u] + ly[v] - g[u][v];
-                if (slack[v] >= delta) {
-                  pre[v] = u;
-                  if (delta) {
-                    slack[v] = delta;
-                  } else if (check(v)) {  // delta=0 代表有机会加入相等子图 找增广路
-                                          // 找到就return 重建交错树
-                    return;
-                  }
-                }
-              }
-            }
-          }
-          // 没有增广路 修改顶标
-          T a = inf;
-          for (int j = 0; j < n; j++) {
-            if (!visy[j]) {
-              a = min(a, slack[j]);
-            }
-          }
-          for (int j = 0; j < n; j++) {
-            if (visx[j]) {  // S
-              lx[j] -= a;
-            }
-            if (visy[j]) {  // T
-              ly[j] += a;
-            } else {  // T'
-              slack[j] -= a;
-            }
-          }
-          for (int j = 0; j < n; j++) {
-            if (!visy[j] && slack[j] == 0 && check(j)) {
-              return;
-            }
-          }
-        }
-      }
-    
-      void solve() {
-        // 初始顶标
-        for (int i = 0; i < n; i++) {
-          for (int j = 0; j < n; j++) {
-            lx[i] = max(lx[i], g[i][j]);
-          }
-        }
-    
-        for (int i = 0; i < n; i++) {
-          fill(slack.begin(), slack.end(), inf);
-          fill(visx.begin(), visx.end(), false);
-          fill(visy.begin(), visy.end(), false);
-          bfs(i);
-        }
-    
-        // custom
-        for (int i = 0; i < n; i++) {
-          if (g[i][matchx[i]] > 0) {
-            res += g[i][matchx[i]];
-          } else {
-            matchx[i] = -1;
-          }
-        }
-        cout << res << "\n";
-        for (int i = 0; i < org_n; i++) {
-          cout << matchx[i] + 1 << " ";
-        }
-        cout << "\n";
-      }
-    };
+    --8<-- "docs/graph/code/graph-matching/bigraph-weight-match/bigraph-weight-match_2.cpp"
     ```
 
-## Dynamic Hungarian Algorithm
+## 拓展：动态匈牙利算法
 
 原论文 [The Dynamic Hungarian Algorithm for the Assignment Problem with Changing Costs](https://www.ri.cmu.edu/publications/the-dynamic-hungarian-algorithm-for-the-assignment-problem-with-changing-costs/)
 
 伪代码更清晰的论文 [A Fast Dynamic Assignment Algorithm for Solving Resource Allocation Problems](https://www.researchgate.net/publication/352490780_A_Fast_Dynamic_Assignment_Algorithm_for_Solving_Resource_Allocation_Problems)
-
-相关 OJ 问题 [DAP](https://www.spoj.com/problems/DAP/)
 
 ???+ note "算法思路"
     1.  修改单点 $u_i$ 和所有 $v_j$ 之间的权重，即权重矩阵中的一行
@@ -245,32 +138,11 @@ $a = \min \{ slack(v) | v\in{T'} \}$
         3.  修改权重矩阵某一元素，任意修改其中一个顶标即可满足顶标条件
     -   每一次权重矩阵被修改，都关系到一个特定节点，这个节点可能是左边的也可能是右边的，因此我们直接记为 $x$, 这个节点和某个节点 $y$ 在原来的最优匹配中匹配上了。每一次修改操作，最多让这一对节点 unpair，因此我们只要跑一轮匈牙利算法中的搜索我们就能得到一个新的 match，而根据定理一，新跑出来的 match 是最优的。
 
+### 参考实现
+
 以下代码应该为论文 2 作者提交的代码（以下代码为最大化权重版本，原始论文中为最小化 cost）
 
-??? note "动态匈牙利算法参考代码"
+??? example "模板题 [DAP](https://www.spoj.com/problems/DAP/)"
     ```cpp
     --8<-- "docs/graph/code/graph-matching/bigraph-weight-match/bigraph-weight-match_1.cpp"
-    ```
-
-## 转化为费用流模型
-
-与 [二分图最大匹配](./bigraph-match.md) 类似，二分图的最大权匹配也可以转化为网络流问题来求解。
-
-首先，在图中新增一个源点和一个汇点。
-
-从源点向二分图的每个左部点连一条流量为 $1$，费用为 $0$ 的边，从二分图的每个右部点向汇点连一条流量为 $1$，费用为 $0$ 的边。
-
-接下来对于二分图中每一条连接左部点 $u$ 和右部点 $v$，边权为 $w$ 的边，则连一条从 $u$ 到 $v$，流量为 $1$，费用为 $w$ 的边。
-
-另外，考虑到最大权匹配下，匹配边的数量不一定与最大匹配的匹配边数量相等，因此对于每个左部点，还需向汇点连一条流量为 $1$，费用为 $0$ 的边。
-
-求这个网络的 [最大费用最大流](../flow/min-cost.md) 即可得到答案。此时，该网络的最大流量一定为左部点的数量，而最大流量下的最大费用即对应一个最大权匹配方案。
-
-## 习题
-
-??? note "[UOJ #80. 二分图最大权匹配](https://uoj.ac/problem/80)"
-    模板题
-    
-    ```cpp
-    --8<-- "docs/graph/code/graph-matching/bigraph-weight-match/bigraph-weight-match_2.cpp"
     ```
