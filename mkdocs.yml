@@ -310,7 +310,7 @@ nav:
       - 对角化: math/linear-algebra/diagonalization.md
       - Jordan标准型: math/linear-algebra/jordan.md
     - 线性规划:
-      - 线性规划简介: math/linear-programming.md
+      - 线性规划基础: math/linear-programming.md
       - 单纯形算法: math/simplex.md
     - 抽象代数:
       - 基本概念: math/algebra/basic.md
