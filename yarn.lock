@@ -2674,7 +2674,7 @@ remark-copywriting-correct@0.6.0:
 
 "remark-details@github:c-forrest/remark-details#patch-refactor":
   version "5.0.0"
-  resolved "https://codeload.github.com/c-forrest/remark-details/tar.gz/592ff49422002a3d6fdd79af86bd73c33c6d7b03"
+  resolved "https://codeload.github.com/c-forrest/remark-details/tar.gz/97b26ad9e621e06d50f9cb62b704a7a84c78aac6"
   dependencies:
     hast "^1.0.0"
     hastscript "^7.0.2"
