@@ -253,7 +253,7 @@ $$
 
 那么，能否快速求出 $f(n)$ 的值，或者进一步地，快速计算块筛 $\mathcal S_f(n)$ 呢？
 
-**Powerful Number 筛**（简称 PN 筛）就提供了这样一种算法．它可以快速修改积性函数在素数平方及以上幂次处的贡献，从块筛 $\mathcal S_g(n)$ 出发，在 $\tilde O(\sqrt{n})$ 时间内得到点值 $f(n)$，在 $\tilde O(n^{3/5})$ 时间内得到块筛 $\mathcal S_f(n)$．
+**Powerful Number 筛**（简称 PN 筛）就提供了这样一种算法．它可以快速修改积性函数在素数平方及以上幂次处的贡献，从块筛 $\mathcal S_g(n)$ 出发，在 $O(\sqrt{n})$ 时间内得到点值 $f(n)$，在 $O(n^{3/5})$ 时间内得到块筛 $\mathcal S_f(n)$．
 
 也就是说，只要支付这些时间成本，就可以自由地选取求和函数 $f$ 在 $p^e~(e>1)$ 处的取值，加速其前缀和计算；得到块筛 $\mathcal S_f(n)$ 后，再通过 PN 筛，就可以得到原来函数的前缀和或块筛．这一点无论是解决某些特殊形式函数的求和问题，还是加速一般积性函数求和，都十分有用．
 
@@ -275,13 +275,28 @@ $$
 
 中．这一集合中的元素，就称为 **Powerful Number**（即「幂数」）．按定义，$1\in\mathrm{PN}$．
 
-Powerful Number 相当稀疏．任取 $k\in\mathrm{PN}$，记其素因数分解为 $k=\prod_{i=1}^s p_i^{e_i}$．因为 $k$ 不包含幂次为一的素因子，所以 $e_i > 1$；也就是说，如果 $e_i$ 是奇数，那么 $e_i\ge 3$．令 $b$ 是所有 $k$ 中所有奇幂次素因子的乘积，就一定有 $b^3\mid k$．又因为 $k/b^3$ 中所有素因子幂次都是偶数，所以 $k/b^3$ 是完全平方数，记其平方根为 $a$．由此，所有 $k\in\mathrm{PN}$ 都具有 $a^2b^3$ 的形式．要计算不超过 $n$ 的 Powerful Number 数量，只需枚举 $a$，累加 $b$ 的数目即可：
+Powerful Number 相当稀疏．任取 $k\in\mathrm{PN}$，记其素因数分解为 $k=\prod_{i=1}^s p_i^{e_i}$．因为 $k$ 不包含幂次为一的素因子，所以 $e_i > 1$；也就是说，如果 $e_i$ 是奇数，那么 $e_i\ge 3$．令 $b$ 是所有 $k$ 中所有奇幂次素因子的乘积，就一定有 $b^3\mid k$．又因为 $k/b^3$ 中所有素因子幂次都是偶数，所以 $k/b^3$ 是完全平方数，记其平方根为 $a$．由此，所有 $k\in\mathrm{PN}$ 都具有 $a^2b^3$ 的形式．要计算不超过 $n$ 的 Powerful Number 数量，只需枚举 $a$，累加 $b$ 可能取值的数目即可：
 
 $$
-\#\{k\in\mathrm{PN}:k\le n\} \le \sum_{a=1}^{\sqrt{n}}\left(\dfrac{n}{a^2}\right)^{1/3}\le \int_0^{\sqrt{n}}\dfrac{n^{1/3}}{x^{2/3}}dx \le \sqrt{n}.
+\#\{k\in\mathrm{PN}:k\le n\} \le \sum_{a=1}^{\sqrt{n}}\left(\dfrac{n}{a^2}\right)^{1/3}\le \int_0^{\sqrt{n}}\dfrac{n^{1/3}}{x^{2/3}}dx \in O(\sqrt{n}).
 $$
 
-所以，不超过 $n$ 的 Powerful Number 只有 $O(\sqrt{n})$ 个．这就为快速计算上述求和式提供了理论可能．
+当然，所有完全平方数都是 Powerful Number，而这些平方数就有 $\Omega(\sqrt{n})$ 个．所以，不超过 $n$ 的 Powerful Number 有 $\Theta(\sqrt{n})$ 个．这就为快速计算上述求和式提供了理论可能．
+
+为了枚举不超过 $n$ 的所有 Powerful Number 数，只需要用线性筛筛出 $[1,\sqrt{n}]$ 中所有素数，然后在这些素数上做 DFS 即可：每次考虑添加一个素因子时，从 $e=2$ 开始枚举其次数，直到乘积超过 $n$ 为止．由于 Powerful Number 只有 $\Theta(\sqrt{n})$ 个，搜索次数也是 $\Theta(\sqrt{n})$ 的．
+
+### 点值计算
+
+应用 Powerful Number 筛计算 $F(n)$ 点值，只需要利用表达式
+
+$$
+F(n) = \sum_{k\le n,~k\in\mathrm{PN}} h(k)G(n/k)
+$$
+
+直接计算即可．前文已经介绍了枚举 Powerful Number 的方法，还需要解决的是 $h$ 的计算．显然，在利用素因数分解搜索 Powerful Number 的过程中，可以同时记录搜索到的数 $k$ 处 $h(k)$ 的取值，只要 $h(p^e)$ 的取值已知．而要计算 $h(p^e)$，通常有两种方法：
+
+-   利用 $f$ 和 $g$ 的表达式，推导 $h(p^e)$ 关于 $p$ 和 $e$ 的表达式．
+-   利用 Dirichlet 卷积定义得到递推关系 $h(p^e) = f(p^e) - \sum_{i=1}^{e}g(p^i)h(p^{e-i})$.
 
 ## 欧拉变换法
 
